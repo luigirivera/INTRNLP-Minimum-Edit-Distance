@@ -17,7 +17,7 @@ public class Main {
 			System.out.println("");
 		}
 		
-		System.out.println("Minimum Edit Distance: " + arr[0][arr[0].length-1] + " -> "+ MED(arr, 0, arr[0].length-1, Integer.parseInt(arr[0][arr[0].length-1])));
+		System.out.println("Minimum Edit Distance: " + arr[0][arr[0].length-1] + " -> "+ MED(arr, 0, arr[0].length-1, 0));
 		
 	}
 	
@@ -59,11 +59,15 @@ public class Main {
 			
 			
 			int index = min(values);
-			
-			if(arr[xs[index]+1][ys[index]].equals("#") && arr[xs[index]][ys[index]-1].equals("#"))
-				return arr[xs[index]][ys[index]] + " = " + (sum + Integer.parseInt(arr[xs[index]][ys[index]]));
-			else
-				return arr[xs[index]][ys[index]]  + " -> " + MED(arr, xs[index], ys[index], sum + Integer.parseInt(arr[xs[index]][ys[index]]));
+
+			fix output
+//			if(index == 0 || index == 1) sum += 1;
+//			else if(index == 2 && arr[row][]) sum 
+//			
+//			if(arr[xs[index]+1][ys[index]].equals("#") && arr[xs[index]][ys[index]-1].equals("#"))
+//				return arr[xs[index]][ys[index]] + " = " + (sum + Integer.parseInt(arr[xs[index]][ys[index]]));
+//			else
+//				return arr[xs[index]][ys[index]]  + " -> " + MED(arr, xs[index], ys[index], sum + Integer.parseInt(arr[xs[index]][ys[index]]));
 
 	}
 	
