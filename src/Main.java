@@ -2,10 +2,8 @@
 public class Main {
 	public static void main(String[] args) throws Exception{
 		
-		String[][] arr = null;
+		fillArray("execution", "intention");
 		
-		arr = initArray(arr, "execution", "intention");
-		display(arr);
 
 		
 	}
@@ -18,11 +16,60 @@ public class Main {
 			}
 			System.out.println("");
 		}
+		
+		System.out.println("Minimum Edit Distance: " + arr[0][arr[0].length-1] + " -> "+ MED(arr, 0, arr[0].length-1, Integer.parseInt(arr[0][arr[0].length-1])));
+		
 	}
 	
-	private static String[][] initArray(String arr[][], String source, String target)
+	private static String MED(String arr[][], int row, int col, int sum)
 	{
-		arr  = new String[target.length()+2][source.length()+2];
+		
+		Integer values[] = new Integer[3];
+		Integer xs[] = new Integer[3];
+		Integer ys[] = new Integer[3];
+		
+			try {
+				values[0] = Integer.parseInt(arr[row][col-1]);
+				xs[0] = row;
+				ys[0] = col-1;
+			}catch(Exception e)
+			{ values[0] = null;
+				xs[0] = null;
+				ys[0] = null;}
+			
+			try {
+				values[1] = Integer.parseInt(arr[row+1][col]);
+				xs[1] = row+1;
+				ys[1] = col;
+			}catch(Exception e)
+			{ values[1] = null; 
+				xs[1] = null;
+				ys[1] = null;}
+			
+			
+			try {
+				values[2] = Integer.parseInt(arr[row+1][col-1]);
+				xs[2] = row+1;
+				ys[2] = col-1;
+			}catch(Exception e)
+			{ values[2] = null; 
+				xs[2] = null;
+				ys[2] = null;}
+			
+			
+			
+			int index = min(values);
+			
+			if(arr[xs[index]+1][ys[index]].equals("#") && arr[xs[index]][ys[index]-1].equals("#"))
+				return arr[xs[index]][ys[index]] + " = " + (sum + Integer.parseInt(arr[xs[index]][ys[index]]));
+			else
+				return arr[xs[index]][ys[index]]  + " -> " + MED(arr, xs[index], ys[index], sum + Integer.parseInt(arr[xs[index]][ys[index]]));
+
+	}
+	
+	private static void fillArray(String source, String target)
+	{
+		String[][] arr  = new String[target.length()+2][source.length()+2];
 		arr[target.length()+1][0] = " ";
 		arr[target.length()+1][1] = "#";
 		arr[target.length()][0] = "#";
@@ -48,7 +95,7 @@ public class Main {
 		
 		editDistance(arr, target.length()-1,2, target.length(), source.length());
 		
-		return arr;
+		display(arr);
 	}
 	
 	private static void editDistance(String arr[][], int x, int y, int height, int width)
@@ -76,5 +123,15 @@ public class Main {
 		if(values[1] <= values[0] && values[1] <= values[2]) return values[1];
 		
 		return values[2];
+	}
+	
+	private static int min(Integer values[])
+	{
+		if(values[1] == null && values[2] == null) return 0;
+		if(values[0] == null && values[2] == null) return 1;
+		if(values[0] != null && values[0] <= values[1] && values[0] <= values[2]) return 0;
+		if(values[1] != null && values[1] <= values[0] && values[1] <= values[2]) return 1;
+		
+		return 2;
 	}
 }
