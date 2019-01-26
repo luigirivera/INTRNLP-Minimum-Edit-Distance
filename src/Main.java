@@ -1,27 +1,34 @@
 
 public class Main {
-	public static void main(String[] args) throws Exception{
-		
-		fillArray("execution", "intention");
-		
-
+	public static void main(String[] args){
+		fillArray("naruto's son", "boruto's dad");
+		fillArray("kumakain", "kumain");
+		fillArray("levinstien", "levenshtein");
+		fillArray("leviathan", "levenshtein");
+		fillArray("ATGCATCCCATGAC", "TCTATATCCGT");
+		fillArray("AGGCTATCACCTGACCTCCAGGCCGATGCCCACCTGG", "TAGCTATCACGACCGCGGTCGATTTGCCCGACGGTCC");
+		fillArray("bugs bunny", "big chungus");
+	}
+	
+	private static void display(String arr[][], String source, String target)
+	{
+//		displayMatrix(arr);
+		System.out.println("Distance: " + arr[0][arr[0].length-1]);
+		MED(arr, 0, arr[0].length-1, source, target, "");
 		
 	}
 	
-	private static void display(String arr[][])
+	private static void displayMatrix(String arr[][])
 	{
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0; j < arr[i].length; j++) {
-				System.out.print(arr[i][j] + " ");
+				System.out.print(arr[i][j] + "\t");
 			}
 			System.out.println("");
 		}
-		
-		System.out.println("Minimum Edit Distance: " + arr[0][arr[0].length-1] + " -> "+ MED(arr, 0, arr[0].length-1, 0));
-		
 	}
 	
-	private static String MED(String arr[][], int row, int col, int sum)
+	private static void MED(String arr[][], int row, int col, String source, String target, String mod)
 	{
 		
 		Integer values[] = new Integer[3];
@@ -59,20 +66,51 @@ public class Main {
 			
 			
 			int index = min(values);
+			if(index == 2)
+			{
+				if(arr[row][0].equals(arr[arr.length-1][col])) mod = "M" + mod;
+				else mod = "S" + mod;
+			}
+			else if(index == 1)
+			{
+				mod = "I" + mod;
+				source = source.substring(0, col-1) + "-" + source.substring(col-1, source.length());
+			}
+		
+			else if(index == 0)
+			{
+				mod = "D" + mod;
+				target = target.substring(0, row) + "-" + target.substring(row, target.length());
+			}
+			
+			if(arr[xs[index]+1][ys[index]].equals("#") && arr[xs[index]][ys[index]-1].equals("#"))
+			{
+				System.out.println("----------");
+				System.out.println(source);
+				System.out.println(mod);
+				System.out.println(reverse(target));
+				System.out.println();
+			}
+			else
+				MED(arr, xs[index], ys[index], source, target, mod);
 
-			fix output
-//			if(index == 0 || index == 1) sum += 1;
-//			else if(index == 2 && arr[row][]) sum 
-//			
-//			if(arr[xs[index]+1][ys[index]].equals("#") && arr[xs[index]][ys[index]-1].equals("#"))
-//				return arr[xs[index]][ys[index]] + " = " + (sum + Integer.parseInt(arr[xs[index]][ys[index]]));
-//			else
-//				return arr[xs[index]][ys[index]]  + " -> " + MED(arr, xs[index], ys[index], sum + Integer.parseInt(arr[xs[index]][ys[index]]));
-
+	}
+	
+	private static String reverse(String str)
+	{
+		String temp = "";
+		
+		for(int i = str.length() - 1; i>=0 ; i--)
+			temp = temp + str.charAt(i);
+		
+		return temp;
 	}
 	
 	private static void fillArray(String source, String target)
 	{
+		source = source.toLowerCase();
+		target = target.toLowerCase();
+		
 		String[][] arr  = new String[target.length()+2][source.length()+2];
 		arr[target.length()+1][0] = " ";
 		arr[target.length()+1][1] = "#";
@@ -81,12 +119,7 @@ public class Main {
 		for(int i = 2 ; i < arr[target.length()+1].length; i++)
 			arr[target.length()+1][i] = String.valueOf(source.charAt(i-2));
 		
-		String temp = "";
-		
-		for(int i = target.length() - 1; i>=0 ; i--)
-			temp = temp + target.charAt(i);
-		
-		target = temp;
+		target = reverse(target);
 		
 		for(int i = 0; i<target.length(); i++)
 			arr[i][0] = String.valueOf(target.charAt(i));
@@ -99,7 +132,7 @@ public class Main {
 		
 		editDistance(arr, target.length()-1,2, target.length(), source.length());
 		
-		display(arr);
+		display(arr, source, target);
 	}
 	
 	private static void editDistance(String arr[][], int x, int y, int height, int width)
@@ -133,9 +166,9 @@ public class Main {
 	{
 		if(values[1] == null && values[2] == null) return 0;
 		if(values[0] == null && values[2] == null) return 1;
-		if(values[0] != null && values[0] <= values[1] && values[0] <= values[2]) return 0;
+		if(values[2] != null && values[2] <= values[0] && values[2] <= values[1]) return 2;
 		if(values[1] != null && values[1] <= values[0] && values[1] <= values[2]) return 1;
 		
-		return 2;
+		return 0;
 	}
 }
