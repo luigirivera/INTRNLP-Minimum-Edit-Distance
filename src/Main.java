@@ -7,7 +7,6 @@ public class Main {
 		fillArray("leviathan", "levenshtein");
 		fillArray("ATGCATCCCATGAC", "TCTATATCCGT");
 		fillArray("AGGCTATCACCTGACCTCCAGGCCGATGCCCACCTGG", "TAGCTATCACGACCGCGGTCGATTTGCCCGACGGTCC");
-		fillArray("bugs bunny", "big chungus");
 	}
 	
 	private static void display(String arr[][], String source, String target)
