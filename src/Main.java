@@ -72,13 +72,13 @@ public class Main {
 			}
 			else if(index == 1)
 			{
-				mod = "I" + mod;
+				mod = "D" + mod;
 				source = source.substring(0, col-1) + "-" + source.substring(col-1, source.length());
 			}
 		
 			else if(index == 0)
 			{
-				mod = "D" + mod;
+				mod = "I" + mod;
 				target = target.substring(0, row) + "-" + target.substring(row, target.length());
 			}
 			
